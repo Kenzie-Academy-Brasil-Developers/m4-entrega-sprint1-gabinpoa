@@ -5,7 +5,7 @@ import { listUsersController } from "../controllers/listUsers.controller";
 import { loginUserController } from "../controllers/loginUser.controller";
 import { readProfileController } from "../controllers/readProfile.controller";
 import { updateUserController } from "../controllers/updateUser.controller";
-import { adminValidation } from "../middlewares/adminValidation";
+import { admValidation } from "../middlewares/admValidation";
 import { emailAndPasswordValidation } from "../middlewares/emailAndPasswordValidation";
 import { emailAvailabilityAuth } from "../middlewares/emailAvailabilityAuth";
 import { idValidation } from "../middlewares/idValidation";
@@ -17,9 +17,14 @@ userRouter.post("", emailAvailabilityAuth, createUserController);
 
 userRouter.post("/login", emailAndPasswordValidation, loginUserController);
 
-userRouter.get("", tokenValidation, adminValidation, listUsersController);
+userRouter.get("", tokenValidation, listUsersController);
 
-userRouter.get("/profile", tokenValidation, readProfileController);
+userRouter.get(
+  "/profile",
+  tokenValidation,
+  admValidation,
+  readProfileController
+);
 
 userRouter.patch("/:id", tokenValidation, updateUserController);
 

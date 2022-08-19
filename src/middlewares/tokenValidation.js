@@ -15,10 +15,10 @@ export const tokenValidation = (request, response, next) => {
       return response.status(401).json({ message: "Invalid Token" });
     }
 
-    request.userIndex = users.findIndex((user) => user.id === decoded.id);
+    request.user = users.find((user) => user.id === decoded.id);
 
-    if (request.userIndex === -1) {
-      return response.status(400).json({ message: "User not found" });
+    if (!request.user) {
+      return response.status(400).json({ message: "Unauthorized" });
     }
     next();
   });
